@@ -13,3 +13,22 @@ main().catch((error) => {
     console.error(error);
     process.exit(1);
   });
+
+
+
+
+
+  
+// const main = async() => {
+//     try {
+//         const AccountFactory = await ethers.getContractFactory("AccountFactory");
+//             const accountFactory = await AccountFactory.deploy();
+//              await accountFactory.waitForDeployment();
+//             console.log(`✅ AccountFactory deployed to: ${accountFactory.target}`);
+        
+//     } catch (error) {
+//         console.error(error);
+//         process.exit(1);
+//     }
+
+// }
