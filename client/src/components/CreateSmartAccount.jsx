@@ -28,7 +28,7 @@ export default function CreateSmartAccount() {
             setLoading(true);
             const tx = await factory.createAccount(ENTRY_POINT_ADDRESS);
             await tx.wait();
-
+            console.log(tx);
             alert("✅ Smart account successfully created!");
             setLoading(false);
             
