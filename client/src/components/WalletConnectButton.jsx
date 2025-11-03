@@ -1,47 +1,24 @@
 import { ethers } from "ethers";
 import { useState } from "react";
+import { useWallet } from "../context/WalletContext"
 
-export default function WalletConnectButton () {
-    const [account,setAccount] = useState();
+const WalletConnectButton = () => {
 
-    async function connectWallet () {
-        if(window.ethereum){
-            try {
-                const accounts = await window.ethereum.request({
-                    method: "eth_requestAccounts"
-                });
-                setAccount(accounts[0]);
-                console.log(accounts)
-            } catch (error) {
-                console.log(error);
-            }
-        }else{
-            alert("No Metamask found, Please install Metamask!!");
-        }
-    }
-
-
+  const { address, connectWallet } = useWallet();
 
     return(
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      <h1 className="text-3xl font-bold mb-6">AA Wallet</h1>
-      {account ? (
-        <p className="text-green-400">Connected: {account}</p>
-      ) : (
-        <button
-          onClick={connectWallet}
-          className="bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
-          Connect Wallet
-        </button>
-      )}
-    </div>
 
 
-    
-
-
-
+    <button
+    onClick={connectWallet}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl shadow-md transition"
+  >
+    {address
+      ? `${address.slice(0, 6)}...${address.slice(-4)}`
+      : "Connect Wallet"}
+  </button>
 
     )
 }
+
+export default WalletConnectButton;
