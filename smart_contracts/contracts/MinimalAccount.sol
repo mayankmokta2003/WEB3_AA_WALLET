@@ -39,9 +39,9 @@ contract MinimalAccount {
     }
 
     modifier onlyOwnerOrEntryPoint() {
-        // if ((msg.sender != owner) && (msg.sender != address(i_entryPoint))) {
-        //     revert MA_NotOwnerOrEntryPoint();
-        // }
+        if ((msg.sender != owner) && (msg.sender != address(i_entryPoint))) {
+            revert MA_NotOwnerOrEntryPoint();
+        }
         _;
     }
 

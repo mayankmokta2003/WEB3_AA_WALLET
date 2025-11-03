@@ -5,6 +5,7 @@ import {
   MINIMAL_ACCOUNT_ADDRESS,
   MINIMAL_ACCOUNT_ABI,
 } from "../utils/constants";
+import AccountBalance from "./AccountBalance";
 
 const SendTransaction = () => {
   const { signer } = useWallet();
@@ -80,6 +81,8 @@ const SendTransaction = () => {
         Send
       </button>
       {status && <p className="text-center mt-2">{status}</p>}
+
+      <AccountBalance />
     </div>
   );
 };
