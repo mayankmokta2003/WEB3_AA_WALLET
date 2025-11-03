@@ -11,7 +11,7 @@ contract AccountFactory {
 
     function createAccount(address _entryPoint) external returns (address){
 
-        MinimalAccount newAccount = new MinimalAccount(_entryPoint);
+        MinimalAccount newAccount = new MinimalAccount(_entryPoint,msg.sender);
         emit AccountCreated(msg.sender,address(newAccount));
         return address(newAccount);
 
