@@ -3,6 +3,9 @@ pragma solidity ^0.8.28;
 
 import { IEntryPoint } from "@account-abstraction/contracts/interfaces/IEntryPoint.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import { UserOperation } from "@account-abstraction/contracts/interfaces/UserOperation.sol";
+import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+
 
 contract MinimalAccount {
     using ECDSA for bytes32;
@@ -101,6 +104,38 @@ contract MinimalAccount {
         emit Executed(to, value, data);
         return result;
     }
+
+    /* ========== ACCOUNT ABSTRACTION CORE ========== */
+
+    function validateUserOp(
+        UserOperation calldata userOp,
+        bytes32 userOpHash,
+        uint256 missingAccountFunds
+    )
+        external
+        returns (uint256 validationData)
+    {
+        if(msg.sender != address(i_entryPoint)){
+            revert MA_NotOwnerOrEntryPoint();
+        }
+        bytes32 ethSignedMessageHash = ECDSA.toEthSignedMessageHash(userOpHash);
+        address signer = ECDSA.recover(ethSignedMessageHash,userOp.signature);
+        if(signer != owner){
+            revert MA_InvalidSignature();
+        }
+
+        if(missingAccountFunds > 0){
+            (bool success,) = payable(msg.sender).call{value: missingAccountFunds,
+            gas: type(uint256).max }("");
+            require(success, "Failed to send missing funds");
+        }
+        return 0;
+    }
+
+
+
+
+
 
     /* ========== GETTERS ========== */
     function entryPoint() external view returns (IEntryPoint) {
