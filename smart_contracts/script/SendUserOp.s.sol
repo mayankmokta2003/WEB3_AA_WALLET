@@ -25,16 +25,22 @@ contract SendUserOp is Script {
         // address ENTRY_POINT_ADDRESS = 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789;
         // entryPoint = IEntryPoint(ENTRY_POINT_ADDRESS);
         
-        // vm.deal(owner,money);
+        vm.deal(address(owner),money);
         vm.deal(address(account),money);
     }
 
 
     function run() public {
         vm.startBroadcast(ownerKey);
-        entryPoint = new EntryPoint();
-        account = new MinimalAccount(address(entryPoint),owner);
+        // entryPoint = new EntryPoint();
+        // account = new MinimalAccount(address(entryPoint),owner);
+
+        address ENTRY_POINT_ADDRESS = 0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789;
+entryPoint = IEntryPoint(ENTRY_POINT_ADDRESS);
+account = new MinimalAccount(address(entryPoint), owner);
+
         UserOperation memory userOp;
+        
 
         userOp.sender = address(account);
         userOp.nonce = account.getNonce();
@@ -55,6 +61,7 @@ contract SendUserOp is Script {
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerKey,ethSigned);
         userOp.signature = abi.encodePacked(r,s,v);
         // transaction through bundler:
+        vm.deal(address(entryPoint), 0.5 ether);
         UserOperation[] memory ops = new UserOperation[](1);
         ops[0] = userOp;
     
