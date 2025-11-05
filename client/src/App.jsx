@@ -19,16 +19,7 @@ const { connectWallet, address } = useWallet();
 
   return (
 
-  
-  // <div className="min-h-screen bg-amber-300 flex flex-col items-center justify-center gap-10">
-  //   <WalletConnectButton />
-  //   <CreateSmartAccount />
-  //   <SendTransaction />
-  // </div>
-
-
-
-
+ 
   <div className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-white">
       {!address ? (
         <button
