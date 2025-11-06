@@ -1,74 +1,5 @@
-// // https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT
-
-// import { ethers } from "ethers";
-// import { MINIMAL_ACCOUNT_ABI } from "./constants";
-
-// const PIMLICO_BUNDLER =
-//   "https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT";
-// const ENTRY_POINT = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789";
-
-// export async function buildUserOp(
-//   provider,
-//   signer,
-//   senderAddress,
-//   target,
-//   value
-// ) {
-//   const accountContract = new ethers.Contract(
-//     senderAddress,
-//     MINIMAL_ACCOUNT_ABI,
-//     signer
-//   );
-//   const callData = accountContract.interface.encodeFunctionData("execute", [
-//     target,
-//     value,
-//     "0x",
-//   ]);
-
-//   const userOp = {
-//     sender: senderAddress,
-//     nonce: await provider.getTransactionCount(senderAddress),
-//     initCode: "0x",
-//     callData: callData,
-//     callGasLimit: 100000,
-//     verificationGasLimit: 100000,
-//     preVerificationGas: 21000,
-//     maxFeePerGas: ethers.parseUnits("20", "gwei"),
-//     maxPriorityFeePerGas: ethers.parseUnits("2", "gwei"),
-//     paymasterAndData: "0x",
-//     signature: "0x",
-//   };
-
-//   const userOpHash = ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify(userOp)));
-//   const signature = await signer.signMessage(ethers.getBytes(userOpHash));
-//   userOp.signature = signature;
-
-//   // 5️⃣ Send to Pimlico bundler
-//   const res = await fetch(PIMLICO_BUNDLER, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({
-//       jsonrpc: "2.0",
-//       id: 1,
-//       method: "eth_sendUserOperation",
-//       params: [userOp, ENTRY_POINT_ADDRESS],
-//     }),
-//   });
-
-//   const data = await res.json();
-//   console.log("Bundler response:", data);
-//   return data;
-
-
-// }
-
-
-
-
-
 
 // https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT
-
 
 import { ethers } from "ethers";
 import { MINIMAL_ACCOUNT_ABI } from "./constants";
@@ -76,41 +7,66 @@ import { MINIMAL_ACCOUNT_ABI } from "./constants";
 const PIMLICO_BUNDLER =
   "https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT";
 const ENTRY_POINT = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789";
+const ENTRY_POINT_ABI = [
+  "function getNonce(address sender, uint192 key) view returns (uint256)"
+];
 
-function safeStringify(obj) {
-  return JSON.stringify(obj, (_, v) => (typeof v === "bigint" ? v.toString() : v));
+function toHex(n) {
+  return ethers.toBeHex(n);
 }
-const toHex = (n) => ethers.toBeHex(n);
 
 export async function buildUserOp(provider, signer, senderAddress, target, value) {
-  const accountContract = new ethers.Contract(senderAddress, MINIMAL_ACCOUNT_ABI, provider);
-  const callData = accountContract.interface.encodeFunctionData("execute", [target, value, "0x"]);
+  const accountContract = new ethers.Contract(senderAddress, MINIMAL_ACCOUNT_ABI, signer);
 
-  // ✅ Correct nonce
-  const nonce = await accountContract.getNonce();
+  const ep = new ethers.Contract(ENTRY_POINT, ENTRY_POINT_ABI, provider);
+
+  const callData = accountContract.interface.encodeFunctionData("execute", [
+    target,
+    value,
+    "0x",
+  ]);
+  // const nonce = await provider.getTransactionCount(senderAddress);
+  // const nonce = await accountContract.getNonce();
+  const nonceBN = await ep.getNonce(senderAddress, 0n);
 
   const userOp = {
     sender: senderAddress,
-    nonce: toHex(nonce),
+    nonce: toHex(nonceBN),
     initCode: "0x",
     callData,
-    callGasLimit: toHex(300000n),
-    verificationGasLimit: toHex(200000n),
-    preVerificationGas: toHex(50000n),
-    maxFeePerGas: toHex(ethers.parseUnits("30", "gwei")),
-    maxPriorityFeePerGas: toHex(ethers.parseUnits("5", "gwei")),
+    callGasLimit: toHex(150000n),
+    verificationGasLimit: toHex(150000n),
+    preVerificationGas: toHex(60000n),
+    maxFeePerGas: toHex(ethers.parseUnits("20", "gwei")),
+    maxPriorityFeePerGas: toHex(ethers.parseUnits("2", "gwei")),
     paymasterAndData: "0x",
     signature: "0x",
   };
 
-  const userOpHash = ethers.keccak256(ethers.toUtf8Bytes(safeStringify(userOp)));
+    // ✅ Create the same structured hash EntryPoint uses
+      // Use the actual EntryPoint contract to compute the userOpHash
+  const entryPoint = new ethers.Contract(
+    ENTRY_POINT,
+    [
+      "function getUserOpHash((address sender,uint256 nonce,bytes initCode,bytes callData,uint256 callGasLimit,uint256 verificationGasLimit,uint256 preVerificationGas,uint256 maxFeePerGas,uint256 maxPriorityFeePerGas,bytes paymasterAndData,bytes signature) userOp) view returns (bytes32)"
+    ],
+    provider
+  );
+
+  // Compute the real hash EntryPoint uses internally
+  const userOpHash = await entryPoint.getUserOpHash(userOp);
+
+  // Sign the correct hash using EIP-191 ("Ethereum Signed Message")
   const signature = await signer.signMessage(ethers.getBytes(userOpHash));
+
   userOp.signature = signature;
 
+  
+  // ✅ Send to bundler
   const res = await fetch(PIMLICO_BUNDLER, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: safeStringify({
+    body: JSON.stringify({
       jsonrpc: "2.0",
       id: 1,
       method: "eth_sendUserOperation",
