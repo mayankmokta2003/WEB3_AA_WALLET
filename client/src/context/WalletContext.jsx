@@ -17,7 +17,8 @@ export const WalletProvider = ({children}) => {
                 return;
             }
             const ethProvider = new ethers.BrowserProvider(window.ethereum);
-            const accounts = await ethProvider.send("eth_requestAccounts",[]);
+            // const accounts = await ethProvider.send("eth_requestAccounts",[]);
+            const accounts = await ethereum.request({method: "eth_requestAccounts"});
             const signer = await ethProvider.getSigner();
 
             setProvider(ethProvider);

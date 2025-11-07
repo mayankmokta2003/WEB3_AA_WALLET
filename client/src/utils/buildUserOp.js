@@ -1,4 +1,3 @@
-
 // https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT
 
 import { ethers } from "ethers";
@@ -8,15 +7,25 @@ const PIMLICO_BUNDLER =
   "https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT";
 const ENTRY_POINT = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789";
 const ENTRY_POINT_ABI = [
-  "function getNonce(address sender, uint192 key) view returns (uint256)"
+  "function getNonce(address sender, uint192 key) view returns (uint256)",
 ];
 
 function toHex(n) {
   return ethers.toBeHex(n);
 }
 
-export async function buildUserOp(provider, signer, senderAddress, target, value) {
-  const accountContract = new ethers.Contract(senderAddress, MINIMAL_ACCOUNT_ABI, signer);
+export async function buildUserOp(
+  provider,
+  signer,
+  senderAddress,
+  target,
+  value
+) {
+  const accountContract = new ethers.Contract(
+    senderAddress,
+    MINIMAL_ACCOUNT_ABI,
+    signer
+  );
 
   const ep = new ethers.Contract(ENTRY_POINT, ENTRY_POINT_ABI, provider);
 
@@ -43,12 +52,11 @@ export async function buildUserOp(provider, signer, senderAddress, target, value
     signature: "0x",
   };
 
-    // ✅ Create the same structured hash EntryPoint uses
-      // Use the actual EntryPoint contract to compute the userOpHash
+  // Use the actual EntryPoint contract to compute the userOpHash
   const entryPoint = new ethers.Contract(
     ENTRY_POINT,
     [
-      "function getUserOpHash((address sender,uint256 nonce,bytes initCode,bytes callData,uint256 callGasLimit,uint256 verificationGasLimit,uint256 preVerificationGas,uint256 maxFeePerGas,uint256 maxPriorityFeePerGas,bytes paymasterAndData,bytes signature) userOp) view returns (bytes32)"
+      "function getUserOpHash((address sender,uint256 nonce,bytes initCode,bytes callData,uint256 callGasLimit,uint256 verificationGasLimit,uint256 preVerificationGas,uint256 maxFeePerGas,uint256 maxPriorityFeePerGas,bytes paymasterAndData,bytes signature) userOp) view returns (bytes32)",
     ],
     provider
   );
@@ -61,7 +69,6 @@ export async function buildUserOp(provider, signer, senderAddress, target, value
 
   userOp.signature = signature;
 
-  
   // ✅ Send to bundler
   const res = await fetch(PIMLICO_BUNDLER, {
     method: "POST",
@@ -78,3 +85,8 @@ export async function buildUserOp(provider, signer, senderAddress, target, value
   console.log("Bundler response:", data);
   return data;
 }
+
+
+
+
+

@@ -4,6 +4,7 @@ import CreateSmartAccount from "./components/CreateSmartAccount";
 import SendTransaction from "./components/SendTransaction";
 import { useWallet } from './context/WalletContext';
 import SendUserOpButton from './components/SendUserOpButton';
+import WalletInfo from "./components/WalletInfo";
 
 // in alert MinimalAccount address: 0x0bD6dc99C7Aaf56cC5A648476700294ad141aa76
 // my contract address to receive money: 0x0bD6dc99C7Aaf56cC5A648476700294ad141aa76
@@ -37,6 +38,7 @@ const { connectWallet, address } = useWallet();
       )}
 
       <SendUserOpButton />
+      <WalletInfo />
     </div>
 
     
