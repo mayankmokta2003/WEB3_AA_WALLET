@@ -69,7 +69,7 @@ const SendUserOpButton = () => {
       />
 
       <button onClick={handleSend} disabled={loading} className="bg-blue-600 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold cursor-pointer">
-      {loading ? "Sending..." : "Send UserOp"}
+      {loading ? "Sending..." : "Send"}
       </button>
 
          {txHash && (

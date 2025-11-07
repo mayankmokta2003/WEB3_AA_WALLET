@@ -1,13 +1,15 @@
 import { useWallet } from "../context/WalletContext";
 import SendTransaction from "./SendTransaction";
 import SendUserOpButton from "./SendUserOpButton";
-import WalletInfo from "./WalletInfo";
+import { MINIMAL_ACCOUNT_ADDRESS } from "../utils/constants";
+import TransactionHistoryMetaMask from "./MetaTransactionHistory";
+import TransactionHistory from "./TransactionHistory";
 
 export default function SendingEth() {
   const { address } = useWallet();
 
   return (
-    <div className="mb-110 flex flex-col mt-15 justify-center items-center">
+    <div className=" flex flex-col justify-center items-center">
       <div>
         <h1 className="text-5xl">Send Transactions</h1>
       </div>
@@ -29,6 +31,9 @@ export default function SendingEth() {
           <div>
             <SendTransaction />
           </div>
+          <div>
+          <TransactionHistoryMetaMask />
+          </div>
         </div>
 
         {/* <br className="h-2 bg-amber-950"/> */}
@@ -39,19 +44,20 @@ export default function SendingEth() {
           </div>
 
           <div>
-            <p>connected</p>
+          {address ? (
+              <p className="text-green-400 mt-2">Connected: {MINIMAL_ACCOUNT_ADDRESS}</p>
+            ) : (
+              <p>Please connect your metamask</p>
+            )}
           </div>
 
 
           <div>
                 <SendUserOpButton />
-                
           </div>
-          {/* <div>
-            <WalletInfo />
-          </div> */}
-
-
+          <div>
+         <TransactionHistory />
+          </div>
 
         </div>
       </div>

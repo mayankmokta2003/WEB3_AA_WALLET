@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useWallet } from "../context/WalletContext";
 
-export default function TransactionHistory() {
+export default function TransactionHistoryMetaMask() {
   const [txs, setTxs] = useState([]);
   const { address } = useWallet();
 
@@ -10,17 +10,18 @@ export default function TransactionHistory() {
       if (!address) return;
 
       try {
+        // ✅ Using V2 Etherscan API for external (normal) transactions
         const res = await fetch(
-          `https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=txlistinternal&address=${address}&page=1&offset=10&sort=desc&apikey=ZQK119TER4MZ7CJEH9EJFSKF636P5MMJ89`
+          `https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=txlist&address=${address}&page=1&offset=10&sort=desc&apikey=ZQK119TER4MZ7CJEH9EJFSKF636P5MMJ89`
         );
 
         const data = await res.json();
-        console.log("Etherscan data:", data);
+        console.log("MetaMask (external) Etherscan data:", data);
 
         if (data.status === "1" && Array.isArray(data.result)) {
           setTxs(data.result.slice(0, 5));
         } else {
-          console.log("No txs found or invalid response:", data);
+          console.warn("No txs found or invalid response:", data);
           setTxs([]);
         }
       } catch (err) {
@@ -34,10 +35,10 @@ export default function TransactionHistory() {
   return (
     <div className="bg-gray-900 p-4 m-4 rounded-xl shadow-md w-100">
       <h2 className="text-xl font-semibold mb-2 ">
-        📜 Internal Contract Transactions
+        💳 MetaMask Transactions
       </h2>
       {txs.length === 0 ? (
-        <p className="text-black">No internal transactions found yet.</p>
+        <p className="text-black">No external transactions found yet.</p>
       ) : (
         <ul className="text-sm text-black">
           {txs.map((tx) => (
@@ -53,11 +54,6 @@ export default function TransactionHistory() {
             </li>
           ))}
         </ul>
-
-       
-
-
-
       )}
     </div>
   );
