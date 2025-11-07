@@ -54,9 +54,9 @@ const SendTransaction = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px] mx-auto mt-8">
+    <div className="flex flex-col gap-6 bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px] mx-auto mt-8">
       <h2 className="text-xl font-semibold text-center mb-2">
-        Send ETH from Smart Account
+        Send ETH from Metamask Account
       </h2>
       <input
         type="text"
@@ -76,7 +76,7 @@ const SendTransaction = () => {
 
       <button
         onClick={handleSend}
-        className="bg-blue-600 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold"
+        className="bg-blue-600 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold cursor-pointer"
       >
         Send
       </button>

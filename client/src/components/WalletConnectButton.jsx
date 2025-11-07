@@ -1,5 +1,4 @@
-import { ethers } from "ethers";
-import { useState } from "react";
+
 import { useWallet } from "../context/WalletContext"
 
 const WalletConnectButton = () => {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useWallet } from "../context/WalletContext";
 import { buildUserOp } from "../utils/buildUserOp";
 import { MINIMAL_ACCOUNT_ADDRESS } from "../utils/constants";
+import ContractInfo from "./ContractInfo"
 
 const SendUserOpButton = () => {
 
@@ -45,37 +46,33 @@ const SendUserOpButton = () => {
         }
 
         return(
-            
+ 
+    <div className="flex flex-col gap-6 bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px] mx-auto mt-8">
+      <h2 className="text-xl font-semibold text-center mb-2">
+          Send from Contract Account
+      </h2>
 
-
-            <div className="p-4 border rounded-lg bg-gray-900 text-white w-[400px] mx-auto mt-6">
-      <h2 className="text-lg font-bold mb-4">Send UserOperation</h2>
-
-      <input
-        type="text"
-        placeholder="Recipient address"
-        value={recipient}
-        onChange={(e) => setRecipient(e.target.value)}
-        className="w-full p-2 mb-2 rounded text-white"
-      />
-      <input
-        type="text"
-        placeholder="Amount in ETH"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="w-full p-2 mb-4 rounded text-white"
+      <input 
+      placeholder="Recipient address"
+      type="text"
+      value={recipient}
+      onChange={(e) => setRecipient(e.target.value)}
+      className="p-2 rounded bg-gray-800 border border-gray-700 text-white"
       />
 
-      <button
-        onClick={handleSend}
-        disabled={loading}
-        className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white w-full"
-      >
-        {loading ? "Sending..." : "Send UserOp"}
+      <input 
+      placeholder="Amount in ETH"
+      type="text"
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+      className="p-2 rounded bg-gray-800 border border-gray-700 text-white"
+      />
+
+      <button onClick={handleSend} disabled={loading} className="bg-blue-600 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold cursor-pointer">
+      {loading ? "Sending..." : "Send UserOp"}
       </button>
-      
-          
-      {txHash && (
+
+         {txHash && (
         <p className="mt-4 text-sm">
           ✅ Transaction sent! <br />
           <a
@@ -88,6 +85,7 @@ const SendUserOpButton = () => {
           </a>
         </p>
       )}
+      <ContractInfo />
     </div>
 
         )

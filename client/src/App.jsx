@@ -5,6 +5,9 @@ import SendTransaction from "./components/SendTransaction";
 import { useWallet } from './context/WalletContext';
 import SendUserOpButton from './components/SendUserOpButton';
 import WalletInfo from "./components/WalletInfo";
+import TransactionHistory from "./components/TransactionHistory";
+import Navbar from './components/Navbar';
+import SendingEth from "./components/SendingEth";
 
 // in alert MinimalAccount address: 0x0bD6dc99C7Aaf56cC5A648476700294ad141aa76
 // my contract address to receive money: 0x0bD6dc99C7Aaf56cC5A648476700294ad141aa76
@@ -22,8 +25,9 @@ const { connectWallet, address } = useWallet();
   return (
 
  
-  <div className="flex flex-col items-center justify-center min-h-screen bg-gray-950 text-white">
-      {!address ? (
+  <div className="flex flex-col items-center justify-center min-h-screen text-white">
+    <Navbar />
+      {/* {!address ? (
         <button
           onClick={connectWallet}
           className="bg-blue-600 px-6 py-3 rounded-xl font-semibold hover:bg-blue-700"
@@ -35,10 +39,11 @@ const { connectWallet, address } = useWallet();
           <p className="text-green-400 mt-2">Connected: {address}</p>
           <SendTransaction />
         </>
-      )}
-
-      <SendUserOpButton />
+      )} */}
+      <SendingEth />
+      {/* <SendUserOpButton />
       <WalletInfo />
+      <TransactionHistory /> */}
     </div>
 
     

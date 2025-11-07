@@ -30,14 +30,12 @@ const AccountBalance = () => {
 
     return (
         <div className="text-center bg-gray-800 p-4 rounded-lg shadow mt-4">
-      <h3 className="text-lg font-semibold">Smart Account Balance</h3>
+      <h3 className="text-lg font-semibold">Metamask Account Balance</h3>
       {balance ? (
         <p className="text-xl font-bold text-green-400">Metamask Balance: {balance} ETH</p>        
       ) : (
-        <p>Loading...</p>
+        <p>Connect your Metamask first!!</p>
       )}
-      <br /> 
-        <p className="text-xl font-bold text-green-400">ContractBalance: {smartContractBalance} ETH</p>
 
     </div>
     )
