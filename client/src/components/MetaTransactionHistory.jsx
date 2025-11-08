@@ -21,7 +21,7 @@ export default function TransactionHistoryMetaMask() {
         if (data.status === "1" && Array.isArray(data.result)) {
           setTxs(data.result.slice(0, 5));
         } else {
-          console.warn("No txs found or invalid response:", data);
+          console.log("No txs found or invalid response:", data);
           setTxs([]);
         }
       } catch (err) {
@@ -38,7 +38,7 @@ export default function TransactionHistoryMetaMask() {
         💳 MetaMask Transactions
       </h2>
       {txs.length === 0 ? (
-        <p className="text-black">No external transactions found yet.</p>
+        <p className="text-white">No external transactions found yet.</p>
       ) : (
         <ul className="text-sm text-black">
           {txs.map((tx) => (

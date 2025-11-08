@@ -21,28 +21,9 @@ const { connectWallet, address } = useWallet();
  
   <div className=" text-white">
     <Navbar />
-      {/* {!address ? (
-        <button
-          onClick={connectWallet}
-          className="bg-blue-600 px-6 py-3 rounded-xl font-semibold hover:bg-blue-700"
-        >
-          Connect Wallet
-        </button>
-      ) : (
-        <>
-          <p className="text-green-400 mt-2">Connected: {address}</p>
-          <SendTransaction />
-        </>
-      )} */}
       <SendingEth />
-      
-      {/* <SendUserOpButton />
-      <WalletInfo />
-      <TransactionHistory /> */}
     </div>
 
-    
-    
   )
 }
 

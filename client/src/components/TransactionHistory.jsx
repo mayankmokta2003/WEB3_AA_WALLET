@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWallet } from "../context/WalletContext";
+import { MINIMAL_ACCOUNT_ADDRESS } from "../utils/constants"
 
 export default function TransactionHistory() {
   const [txs, setTxs] = useState([]);
@@ -11,7 +12,7 @@ export default function TransactionHistory() {
 
       try {
         const res = await fetch(
-          `https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=txlistinternal&address=${address}&page=1&offset=10&sort=desc&apikey=ZQK119TER4MZ7CJEH9EJFSKF636P5MMJ89`
+          `https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=txlistinternal&address=${MINIMAL_ACCOUNT_ADDRESS}&page=1&offset=10&sort=desc&apikey=ZQK119TER4MZ7CJEH9EJFSKF636P5MMJ89`
         );
 
         const data = await res.json();
@@ -37,7 +38,7 @@ export default function TransactionHistory() {
         📜 Internal Contract Transactions
       </h2>
       {txs.length === 0 ? (
-        <p className="text-black">No internal transactions found yet.</p>
+        <p className="text-white">No internal transactions found yet.</p>
       ) : (
         <ul className="text-sm text-black">
           {txs.map((tx) => (
@@ -53,10 +54,6 @@ export default function TransactionHistory() {
             </li>
           ))}
         </ul>
-
-       
-
-
 
       )}
     </div>

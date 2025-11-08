@@ -17,14 +17,19 @@ export default function SendingEth() {
       <div className="flex mt-12 justify-between items-center gap-40">
         <div className="flex flex-col justify-center items-center">
           <div>
-            <h1 className="text-2xl">Send ETH from Metamask Account</h1>
+            <h1 className="text-2xl mb-5">Send ETH using your MetaMask Wallet</h1>
+            <div className="space-y-1">
+            <p>This section lets you send normal Ethereum transactions</p>
+              <p>directly from your MetaMask wallet. Perfect for comparing</p>
+              <p>traditional vs. smart wallet transfers.</p>
+              </div>
           </div>
 
-          <div>
+          <div className="mt-5">
             {address ? (
               <p className="text-green-400 mt-2">Connected: {address}</p>
             ) : (
-              <p>Please connect your metamask</p>
+              <p className="text-xl">Please connect your metamask</p>
             )}
           </div>
 
@@ -39,15 +44,20 @@ export default function SendingEth() {
         {/* <br className="h-2 bg-amber-950"/> */}
 
         <div className="flex flex-col justify-center items-center">
-          <div>
-            <h1 className="text-2xl">Send ETH from your Contract Account</h1>
+          <div >
+            <h1 className="text-2xl mb-5">Send ETH from your Smart Contract Wallet</h1>
+            <div className="space-y-1">
+            <p>This wallet runs on Account Abstraction (ERC-4337).</p>
+              <p>Your transactions are bundled and verified via EntryPoint contract.</p>
+              <p>Experience gasless and programmable transfers.</p>
+              </div>
           </div>
 
-          <div>
+          <div className="mt-5">
           {address ? (
               <p className="text-green-400 mt-2">Connected: {MINIMAL_ACCOUNT_ADDRESS}</p>
             ) : (
-              <p>Please connect your metamask</p>
+              <p className="text-xl">Please connect your metamask</p>
             )}
           </div>
 
