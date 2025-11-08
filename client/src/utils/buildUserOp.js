@@ -1,7 +1,7 @@
 // https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT
 
 import { ethers } from "ethers";
-import { MINIMAL_ACCOUNT_ABI,SEPOLIA_PAYMASTER } from "./constants";
+import { MINIMAL_ACCOUNT_ABI,SEPOLIA_PAYMASTER,SMART_PAYMASTER } from "./constants";
 
 const PIMLICO_BUNDLER =
   "https://api.pimlico.io/v2/sepolia/rpc?apikey=pim_bHDSBUCDUVi6u2MStWMcZT";
@@ -50,7 +50,7 @@ export async function buildUserOp(
     maxPriorityFeePerGas: toHex(ethers.parseUnits("2", "gwei")),
     // solidityPacked is sm like abi.encodePacked and it expects data in ABI-encoded bytes hex form and in 1st para we tell kis type ka data hai 
     // toHex only converts numbers not addresses thats why we used solidityPacked
-    paymasterAndData: ethers.solidityPacked(["address"], [SEPOLIA_PAYMASTER]),
+    paymasterAndData: ethers.solidityPacked(["address"], [SMART_PAYMASTER]),
     signature: "0x",
   };
 

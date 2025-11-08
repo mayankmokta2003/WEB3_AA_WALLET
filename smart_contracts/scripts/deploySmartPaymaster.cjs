@@ -14,13 +14,13 @@ async function main() {
     console.log("✅ SmartPaymaster deployed at:",paymasterAddress);
 
     const tx = await paymaster.deposit({ value: ethers.parseEther("0.02") });
-    await depositTx.wait();
+    await tx.wait();
     console.log("💰 Funded Paymaster with 0.05 ETH in EntryPoint");
 
     const MinimalAccountAddress = "0x535006AC5CEe48a2e94e3fDd23577D24ab80D1c0";
     const whiteListTx = await paymaster.addToWhitelist(MinimalAccountAddress);
     await whiteListTx.wait();
-    console.log("🎟️ Whitelisted SmartAccount:", smartAccountAddress);
+    console.log("🎟️ Whitelisted SmartAccount:", MinimalAccountAddress);
 
     console.log("🎯 SmartPaymaster setup completed successfully!");
 
