@@ -1,19 +1,37 @@
+// require("@nomicfoundation/hardhat-toolbox");
+// require("dotenv").config();
+
+// /** @type import('hardhat/config').HardhatUserConfig */
+// module.exports = {
+//   solidity: "0.8.28",
+//   paths: {
+//     sources: "./contracts",
+//   },
+//   networks: {
+//     sepolia: {
+//       url: process.env.ALCHEMY_API_KEY,
+//       accounts: [process.env.PRIVATE_KEY],
+//     },
+//   },
+//   etherscan: {
+//     apiKey: process.env.ETHERSCAN_API_KEY,
+//   },
+// };
+
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config();
 
-/** @type import('hardhat/config').HardhatUserConfig */
+const { SEPOLIA_RPC_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
+
 module.exports = {
   solidity: "0.8.28",
-  paths: {
-    sources: "./contracts",
-  },
   networks: {
     sepolia: {
-      url: process.env.ALCHEMY_API_KEY,
-      accounts: [process.env.PRIVATE_KEY],
+      url: SEPOLIA_RPC_URL,
+      accounts: [PRIVATE_KEY],
     },
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: ETHERSCAN_API_KEY,
   },
 };

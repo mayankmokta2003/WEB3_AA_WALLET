@@ -53,6 +53,8 @@ export async function buildUserOp(
     paymasterAndData: ethers.solidityPacked(["address"], [V2SMART_PAYMASTER]),
     signature: "0x",
   };
+  console.log("PaymasterAndData:", userOp.paymasterAndData);
+
 
   // Use the actual EntryPoint contract to compute the userOpHash
   const entryPoint = new ethers.Contract(
