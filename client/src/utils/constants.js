@@ -16,4 +16,7 @@ export const MINIMAL_ACCOUNT_ADDRESS = "0x535006AC5CEe48a2e94e3fDd23577D24ab80D1
 
 export const ACCOUNT_FACTORY_ABI = AccountFactory.abi;
 export const MINIMAL_ACCOUNT_ABI = MinimalAccount.abi;
-export const SMART_PAYMASTER_V2 = SmartPaymasterV2.abi;
+export const SMART_PAYMASTER_V2_ABI = SmartPaymasterV2.abi;
+
+
+export const SEPOLIA_RPC_URL="https://eth-sepolia.g.alchemy.com/v2/8buZbYFWDbz9Nceec-u8u";
