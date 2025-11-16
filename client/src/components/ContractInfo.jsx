@@ -20,7 +20,8 @@ export default function ContractInfo() {
             const balance = await provider.getBalance(MINIMAL_ACCOUNT_ADDRESS);
             const nonce = await contract.getNonce();
             const entryPoint = await contract.entryPoint();
-            setContractBal(balance);
+            console.log(ethers.formatEther(balance));
+            setContractBal(ethers.formatEther(balance));
 
         } catch (error) {
             console.log(error);

@@ -42,4 +42,23 @@ const PAYMASTER = "0xa53dcd3331d048f3bda4b46341e8904df927dacd";
 
 
 
+// const { ethers } = require("ethers");
+// const ENTRYPOINT = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789";
+// const PAYMASTER = "0xa53dcd3331d048f3bda4b46341e8904df927dacd";
+// const recipient = "0x7eb5b82f7754cad509a8d13fb4092e1fc77ee951";
+// const amount = ethers.parseEther("0.04");
+
+// async function main() {
+//   const ENTRYPOINT = "0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789";
+//   const ABI = [ "function withdrawTo(address payable withdrawAddress, uint256 withdrawAmount) external" ]
+
+//   const [signer] = await ethers.getSigners();
+//   const entry = new ethers.Contract(
+//     ENTRYPOINT,ABI,signer
+//   );
+
+//   const tx = await entry.withdrawTo(recipient,amount);
+//   await tx.wait();
+
+// }
 

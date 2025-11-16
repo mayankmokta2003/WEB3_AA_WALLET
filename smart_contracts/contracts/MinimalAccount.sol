@@ -108,44 +108,6 @@ contract MinimalAccount {
 
     /* ========== ACCOUNT ABSTRACTION CORE ========== */
 
-//     function validateUserOp(
-//         UserOperation calldata userOp,
-//         bytes32 userOpHash,
-//         uint256 missingAccountFunds
-//     )
-//         external
-//         returns (uint256 validationData)
-//     {
-//         if(msg.sender != address(i_entryPoint)){
-//             revert MA_NotOwnerOrEntryPoint();
-//         }
-//         bytes32 ethSignedMessageHash = ECDSA.toEthSignedMessageHash(userOpHash);
-//         address signer = ECDSA.recover(ethSignedMessageHash,userOp.signature);
-//         if(signer != owner){
-//             revert MA_InvalidSignature();
-//         }
-
-//         // if(missingAccountFunds > 0){
-//         //     (bool success,) = payable(msg.sender).call{value: missingAccountFunds,
-//         //     gas: type(uint256).max }("");
-//         //     require(success, "Failed to send missing funds");
-//         // }
-
-
-
-//         if (missingAccountFunds > 0) {
-//     uint256 amountToSend = missingAccountFunds > address(this).balance
-//         ? address(this).balance
-//         : missingAccountFunds;
-//     (bool success,) = payable(msg.sender).call{value: amountToSend}("");
-//     require(success, "Failed to send missing funds");
-// }
-
-        
-//         return 0;
-//     }
-
-
 
 function validateUserOp(
     UserOperation calldata userOp,
