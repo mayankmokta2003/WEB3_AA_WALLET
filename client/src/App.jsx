@@ -1,6 +1,7 @@
 import { useWallet } from './context/WalletContext';
 import Navbar from './components/Navbar';
 import SendingEth from "./components/SendingEth";
+import Info from './components/Info';
 
 
 // in alert MinimalAccount address: 0x0bD6dc99C7Aaf56cC5A648476700294ad141aa76
@@ -21,6 +22,7 @@ const { connectWallet, address } = useWallet();
  
   <div className=" text-white">
     <Navbar />
+    <Info />
       <SendingEth />
     </div>
 

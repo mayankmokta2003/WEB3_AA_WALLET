@@ -38,7 +38,7 @@ export default function ContractInfo() {
         <div className="text-center bg-gray-800 p-4 rounded-lg shadow mt-4">
         {/* <h3 className="text-lg font-semibold">Contract Balance</h3> */}
         {address ? (
-          <p className="text-xl font-bold text-green-400">Contract Balance: {contractBal} ETH</p>        
+          <p className="text-xl font-bold text-gray-400">Contract Balance: {contractBal} ETH</p>        
         ) : (
           <p>Connect your Metamask first!!</p>
         )}

@@ -5,8 +5,71 @@ body{
     padding: 0;
 
     height:100wh;
-    background:linear-gradient(267deg , #441077 0.36% , #034d6f 102.06%);
-    color:white;
+    /* background:linear-gradient(267deg , #441077 0.36% , #034d6f 102.06%);
+    color:white; */
+
+    /* background: linear-gradient(
+  180deg,
+  #1A0B23 0%,
+  #2A1838 50%,
+  #1A0B23 100%
+); */
+
+
+
+  /* background:
+  repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 2px,
+    transparent 2px,
+    transparent 40px
+  ),
+  linear-gradient(
+    180deg,
+    #1a0b23 0%,
+    #2a1838 50%,
+    #1a0b23 100%
+  ),
+  #e6d4ef; */
+/* 
+  background:
+
+  linear-gradient(
+    90deg,
+    rgba(30, 0, 40, 0.7) 0%,      
+    rgba(80, 30, 120, 0.25) 20%,  
+    rgba(120, 60, 180, 0.15) 50%, 
+    rgba(80, 30, 120, 0.25) 80%,  
+    rgba(30, 0, 40, 0.7) 100%     
+  ),
+  
+
+  repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.06) 0px,
+    rgba(255,255,255,0.06) 2px,
+    transparent 2px,
+    transparent 40px
+  ),
+  
+
+  linear-gradient(
+    180deg,
+    #0D0213 0%,       
+    #1A0B23 35%,      
+    #3A1E50 60%,      
+    #E6D4EF 100%     
+  );
+  
+  background-color: #E6D4EF;
+  
+
+
     
-    font-family: 'outfit';
+    font-family: 'outfit'; */
+
+
+    background: linear-gradient(to right, #1a0404, #0b0f14);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }

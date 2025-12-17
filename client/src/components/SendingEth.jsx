@@ -9,13 +9,13 @@ export default function SendingEth() {
   const { address } = useWallet();
 
   return (
-    <div className=" flex flex-col justify-center items-center">
+    <div className=" flex flex-col justify-center items-center bg-gradient-to-r from-red-900 to-gray-900 m-20 rounded-4xl pt-10">
       <div>
         <h1 className="text-5xl">Send Transactions</h1>
       </div>
 
-      <div className="flex mt-12 justify-between items-center gap-40">
-        <div className="flex flex-col justify-center items-center">
+      <div className="flex mt-8 justify-between items-center gap-40">
+        {/* <div className="flex flex-col justify-center items-center">
           <div>
             <h1 className="text-2xl mb-5">Send ETH using your MetaMask Wallet</h1>
             <div className="space-y-1">
@@ -27,7 +27,7 @@ export default function SendingEth() {
 
           <div className="mt-5">
             {address ? (
-              <p className="text-green-400 mt-2">Connected: {address}</p>
+              <p className="text-gray-400 mt-2">Connected: {address}</p>
             ) : (
               <p className="text-xl">Please connect your metamask</p>
             )}
@@ -39,28 +39,22 @@ export default function SendingEth() {
           <div>
           <TransactionHistoryMetaMask />
           </div>
-        </div>
+        </div> */}
 
         {/* <br className="h-2 bg-amber-950"/> */}
 
         <div className="flex flex-col justify-center items-center">
           <div >
-            <h1 className="text-2xl mb-5">Send ETH from your Smart Contract Wallet</h1>
-            <div className="space-y-1">
-            <p>This wallet runs on Account Abstraction (ERC-4337).</p>
-              <p>Your transactions are bundled and verified via EntryPoint contract.</p>
-              <p>Experience gasless and programmable transfers.</p>
-              </div>
+            
           </div>
 
-          <div className="mt-5">
+          <div className="">
           {address ? (
-              <p className="text-green-400 mt-2">Connected: {MINIMAL_ACCOUNT_ADDRESS}</p>
+              <p className="text-gray-400 ">Connected: {MINIMAL_ACCOUNT_ADDRESS}</p>
             ) : (
-              <p className="text-xl">Please connect your metamask</p>
+              <p className="text-xl text-gray-400">Please connect your metamask</p>
             )}
           </div>
-
 
           <div>
                 <SendUserOpButton />

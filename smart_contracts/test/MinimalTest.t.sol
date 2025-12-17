@@ -6,6 +6,8 @@ import {Test} from "forge-std/Test.sol";
 import {MinimalAccount} from "../contracts/MinimalAccount.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import { UserOperation } from "@account-abstraction/contracts/interfaces/UserOperation.sol";
+import { IEntryPoint } from "@account-abstraction/contracts/interfaces/IEntryPoint.sol";
+import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 contract MinimalTest is Test {
 
@@ -69,7 +71,7 @@ contract MinimalTest is Test {
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ownerKey,msgHash);
         bytes memory sig = abi.encodePacked(r,s,v);
         uint256 beforeBalance = recipient.balance;
-        bytes memory result = account.executeWithSignature(recipient,value,data,nonce,sig);
+        account.executeWithSignature(recipient,value,data,nonce,sig);
         uint256 afterBalance = recipient.balance;
         assertEq(afterBalance - beforeBalance , value);
     }
@@ -82,40 +84,41 @@ contract MinimalTest is Test {
     }
 
 
-     /* ========== VALIDATEUSEROP TESTS ========== */
-
-//     struct UserOperation {
-//     address sender;
-//     uint256 nonce;
-//     bytes initCode;
-//     bytes callData;
-//     uint256 callGasLimit;
-//     uint256 verificationGasLimit;
-//     uint256 preVerificationGas;
-//     uint256 maxFeePerGas;
-//     uint256 maxPriorityFeePerGas;
-//     bytes paymasterAndData;
-//     bytes signature;
-// }
-
-    // function testValidateUserOp_ValidSignature() public {
+    // function testValidateUserOpSuccess() external {
+    //     uint256 nonce_ = account.getNonce();
+    //     bytes memory data = "";
     //     uint256 value = 0.2 ether;
     //     UserOperation memory userOp;
-    //     userOp.sender = address(account);
-    //     userOp.callData = "";
-    //     userOp.nonce = account.getNonce();
-
-    //     bytes32 userOpHash = keccak256((abi.encode(userOp.sender,userOp.callData,userOp.nonce)));
-    //     bytes32 msgHash = ECDSA.toEthSignedMessageHash(userOpHash);
-
-    //     (uint8 v,bytes32 r,bytes32 s) = vm.sign(ownerKey,msgHash);
-    //     // userOp.signature = abi.encodePacked(r,s,v);
-    //     userOp.signature = bytes.concat(r, s, bytes1(v));
-     
-    //     vm.prank(entryPoint);
-    //     uint256 result = account.validateUserOp(userOp,msgHash,value);
-    //     assertEq(result,0);
+    //     bytes32 userOpHash = account.getMessageHash(recipient, value, data, nonce_);
+    //     bytes32 ethSigned = ECDSA.toEthSignedMessageHash(userOpHash);
+    //     (uint8 v,bytes32 r,bytes32 s) = vm.sign(ownerKey,ethSigned);
+    //     userOp.signature = abi.encode(r,s,v);
+    //     uint256 res = account.validateUserOp(userOp, userOpHash, 0);
+    //     assert(res == 0);
     // }
+
+
+    function testValidateUserOpSuccess() external {
+        UserOperation memory userOp;
+        bytes32 userOpHash = keccak256("userOp");
+
+        bytes32 ethSigned =
+            ECDSA.toEthSignedMessageHash(userOpHash);
+
+        (uint8 v, bytes32 r, bytes32 s) =
+            vm.sign(uint256(uint160(owner)), ethSigned);
+
+        userOp.signature = abi.encodePacked(r, s, v);
+
+        vm.prank(entryPoint);
+        uint256 result =
+            account.validateUserOp(userOp, userOpHash, 0);
+
+        assertEq(result, 0);
+    }
+
+
+ 
 
 
  

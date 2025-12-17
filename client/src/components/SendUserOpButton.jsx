@@ -47,8 +47,9 @@ const SendUserOpButton = () => {
 
         return(
  
-    <div className="flex flex-col gap-6 bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[400px] mx-auto mt-8">
-      <h2 className="text-xl font-semibold text-center mb-2">
+    <div className="flex flex-col gap-6 bg-gray-900 text-white p-6 rounded-2xl shadow-lg w-[600px] mx-auto mt-8 space-y-3">
+    {/* <div className="flex flex-col gap-6 bg-gradient-to-r from-purple-950 to-pink-950  text-white p-6 rounded-2xl shadow-lg w-[600px] mx-auto mt-8 space-y-3 border"> */}
+      <h2 className="text-xl font-semibold text-center ">
           Send from Contract Account
       </h2>
 
@@ -68,7 +69,9 @@ const SendUserOpButton = () => {
       className="p-2 rounded bg-gray-800 border border-gray-700 text-white"
       />
 
-      <button onClick={handleSend} disabled={loading} className="bg-blue-600 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold cursor-pointer">
+      <button onClick={handleSend} disabled={loading} className="bg-red-900 hover:bg-red-950 p-2 rounded-xl text-white font-semibold cursor-pointer">
+      {/* <button onClick={handleSend} disabled={loading} className="bg-gradient-to-r from-red-700 to-gray-500 hover:bg-blue-700 p-2 rounded-xl text-white font-semibold cursor-pointer"> */}
+      
       {loading ? "Sending..." : "Send"}
       </button>
 

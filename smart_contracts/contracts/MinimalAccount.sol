@@ -1,6 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
+/**
+ * @title MinimalAccount
+ * @author Mayank
+ * @notice A minimal smart contract wallet supporting:
+ *         - Owner-based execution
+ *         - Meta-transactions
+ *         - ERC-4337 Account Abstraction (EntryPoint)
+ * @dev This is NOT a production-ready wallet. Built for learning AA concepts.
+ */
+
 import { IEntryPoint } from "@account-abstraction/contracts/interfaces/IEntryPoint.sol";
 import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import { UserOperation } from "@account-abstraction/contracts/interfaces/UserOperation.sol";
@@ -60,7 +70,15 @@ contract MinimalAccount {
     }
 
     /* ========== EXECUTION ========== */
-    /// @notice Execute a call (owner or entryPoint)
+    
+    /**
+     * @notice Execute a transaction from this account
+     * @dev Can be called by owner or EntryPoint
+     * @param to Target address
+     * @param value ETH to send
+     * @param data Calldata
+     */
+
     function execute(address to, uint256 value, bytes calldata data) external onlyOwnerOrEntryPoint returns (bytes memory) {
         (bool success, bytes memory result) = to.call{value: value}(data);
         if (!success) {
@@ -72,7 +90,11 @@ contract MinimalAccount {
 
     /* ========== SIGNATURE / META-TX HELPERS ========== */
 
-    /// @notice returns EIP-191 prefixed message hash to sign off-chain
+    /**
+     * @notice Returns the EIP-191 message hash for signing
+     * @dev Includes contract address to prevent cross-account replay
+     */
+
     function getMessageHash(address to, uint256 value, bytes calldata data, uint256 nonce_) public view returns (bytes32) {
         // binding to this contract address prevents replay across accounts
         bytes32 hash = keccak256(abi.encodePacked(address(this), to, value, data, nonce_));
@@ -86,7 +108,11 @@ contract MinimalAccount {
         return signer == owner;
     }
 
-    /// @notice Execute a signed meta-transaction (relayer pays gas)
+    /**
+     * @notice Execute a meta-transaction using owner's signature
+     * @dev Relayer pays gas
+     */
+
     function executeWithSignature(address to, uint256 value, bytes calldata data, uint256 nonce_, bytes calldata signature) external returns (bytes memory) {
         if (nonce_ != _nonce) {
             revert MA_InvalidNonce();
@@ -108,6 +134,14 @@ contract MinimalAccount {
 
     /* ========== ACCOUNT ABSTRACTION CORE ========== */
 
+/**
+     * @notice Validate a UserOperation (ERC-4337)
+     * @dev Called ONLY by EntryPoint
+     * @param userOp The user operation struct
+     * @param userOpHash Hash of the user operation
+     * @param missingAccountFunds ETH needed for prefund
+     * @return validationData 0 if valid
+     */
 
 function validateUserOp(
     UserOperation calldata userOp,
@@ -138,11 +172,6 @@ function validateUserOp(
 
     return 0;
 }
-
-
-
-
-
 
 
     /* ========== GETTERS ========== */

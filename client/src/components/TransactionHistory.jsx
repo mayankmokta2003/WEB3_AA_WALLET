@@ -33,21 +33,21 @@ export default function TransactionHistory() {
   }, [address]);
 
   return (
-    <div className="bg-gray-900 p-4 m-4 rounded-xl shadow-md w-100">
-      <h2 className="text-xl font-semibold mb-2 ">
-        📜 Internal Contract Transactions
+    <div className="bg-gray-900 p-4 m-4 rounded-xl shadow-md w-150 ">
+      <h2 className="text-xl font-semibold mb-4 ">
+        📜 Smart Contract Transactions
       </h2>
       {txs.length === 0 ? (
         <p className="text-white">No internal transactions found yet.</p>
       ) : (
-        <ul className="text-sm text-black">
+        <ul className="text-sm text-black ">
           {txs.map((tx) => (
-            <li key={tx.hash} className="mb-1">
+            <li key={tx.hash} className="mb-4">
               <a
                 href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
                 target="_blank"
                 rel="noreferrer"
-                className="text-green-400 underline"
+                className="text-gray-400 underline"
               >
                 {tx.hash.slice(0, 10)}... → {(tx.value / 1e18).toFixed(4)} ETH
               </a>
