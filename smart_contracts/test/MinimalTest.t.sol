@@ -22,7 +22,6 @@ contract MinimalTest is Test {
         (owner,ownerKey) = makeAddrAndKey("owner");
         recipient = makeAddr("recipient");
         vm.deal(owner,10 ether);
-        
 
         account = new MinimalAccount(entryPoint,owner);
         vm.deal(address(account), 10 ether);
@@ -84,59 +83,19 @@ contract MinimalTest is Test {
     }
 
 
-    // function testValidateUserOpSuccess() external {
-    //     uint256 nonce_ = account.getNonce();
-    //     bytes memory data = "";
-    //     uint256 value = 0.2 ether;
-    //     UserOperation memory userOp;
-    //     bytes32 userOpHash = account.getMessageHash(recipient, value, data, nonce_);
-    //     bytes32 ethSigned = ECDSA.toEthSignedMessageHash(userOpHash);
-    //     (uint8 v,bytes32 r,bytes32 s) = vm.sign(ownerKey,ethSigned);
-    //     userOp.signature = abi.encode(r,s,v);
-    //     uint256 res = account.validateUserOp(userOp, userOpHash, 0);
-    //     assert(res == 0);
-    // }
-
-
     function testValidateUserOpSuccess() external {
-        UserOperation memory userOp;
-        bytes32 userOpHash = keccak256("userOp");
-
-        bytes32 ethSigned =
-            ECDSA.toEthSignedMessageHash(userOpHash);
-
-        (uint8 v, bytes32 r, bytes32 s) =
-            vm.sign(uint256(uint160(owner)), ethSigned);
-
-        userOp.signature = abi.encodePacked(r, s, v);
-
-        vm.prank(entryPoint);
-        uint256 result =
-            account.validateUserOp(userOp, userOpHash, 0);
-
-        assertEq(result, 0);
-    }
-
-
- 
-
-
- 
-
-    
-
-
-
-
-    
-
-
-   
-
-
-
-    
-
+    UserOperation memory userOp;
+    bytes32 userOpHash = keccak256("userOpHash");
+    bytes32 ethSigned =
+        ECDSA.toEthSignedMessageHash(userOpHash);
+    (uint8 v, bytes32 r, bytes32 s) =
+        vm.sign(ownerKey, ethSigned);
+    userOp.signature = abi.encodePacked(r, s, v);
+    vm.prank(entryPoint);
+    uint256 res =
+        account.validateUserOp(userOp, userOpHash, 0);
+    assertEq(res, 0);
+}
 
 
 }
